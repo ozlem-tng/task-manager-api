@@ -13,6 +13,9 @@ This project allows users to create, view, update, delete, and manage tasks with
 * Update an existing task
 * Delete a task
 * Update task status (`PENDING` / `COMPLETED`)
+* Input validation for task fields
+* Custom global exception handling for validation errors
+
 
 ---
 
@@ -133,11 +136,11 @@ http://localhost:8080
 
 ## 🔮 Future Improvements
 
-* Input validation
-* Global exception handling
-* DTO structure
+* Task filtering by status
+* Due date and priority support
+* Custom exception for task not found
+* DTO structure for request/response separation
 * MySQL integration
-* Filtering tasks
 
 ---
 
