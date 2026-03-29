@@ -2,6 +2,8 @@ package com.ozlem.taskmanager.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tasks")
@@ -12,8 +14,11 @@ public class Task {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Title cannot be empty")
+    @Size(min = 3, max = 100, message = "Title must be between 3 and 100 characters")
     private String title;
 
+    @Size(max = 255, message = "Description can be max 255 characters")
     private String description;
 
     @Enumerated(EnumType.STRING)
