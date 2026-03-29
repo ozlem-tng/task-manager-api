@@ -5,7 +5,7 @@ This project allows users to create, view, update, delete, and manage tasks with
 
 ---
 
-## 🚀 Features
+## Features
 
 * Create a new task
 * List all tasks
@@ -14,12 +14,12 @@ This project allows users to create, view, update, delete, and manage tasks with
 * Delete a task
 * Update task status (`PENDING` / `COMPLETED`)
 * Input validation for task fields
-* Custom global exception handling for validation errors
-
+* Global exception handling for validation errors
+* Custom exception handling for non-existing tasks
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 * Java 17
 * Spring Boot
@@ -30,22 +30,27 @@ This project allows users to create, view, update, delete, and manage tasks with
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
+```bash
 src/main/java/com/ozlem/taskmanager
 ├── controller
+├── exception
 ├── model
 ├── repository
 ├── service
 └── TaskmanagerApplication.java
+```
 
 ---
 
-## 📌 API Endpoints
+## API Endpoints
 
-### ➕ Create Task
+### Create Task
 
-POST /tasks
+**POST** `/tasks`
+
+Example request body:
 
 ```json
 {
@@ -55,23 +60,19 @@ POST /tasks
 }
 ```
 
----
+### Get All Tasks
 
-### 📋 Get All Tasks
+**GET** `/tasks`
 
-GET /tasks
+### Get Task By ID
 
----
+**GET** `/tasks/{id}`
 
-### 🔍 Get Task By ID
+### Update Task
 
-GET /tasks/{id}
+**PUT** `/tasks/{id}`
 
----
-
-### ✏️ Update Task
-
-PUT /tasks/{id}
+Example request body:
 
 ```json
 {
@@ -81,69 +82,90 @@ PUT /tasks/{id}
 }
 ```
 
----
+### Delete Task
 
-### ❌ Delete Task
+**DELETE** `/tasks/{id}`
 
-DELETE /tasks/{id}
+### Update Task Status
 
----
-
-### 🔄 Update Task Status
-
-PATCH /tasks/{id}/status?status=COMPLETED
+**PATCH** `/tasks/{id}/status?status=COMPLETED`
 
 ---
 
-## 💾 Database
+## Validation Example
+
+If an invalid request is sent, the API returns a validation error response.
+
+Example response:
+
+```json
+{
+  "title": "Title must be between 3 and 100 characters"
+}
+```
+
+---
+
+## Not Found Example
+
+If a task with a given ID does not exist, the API returns:
+
+```json
+{
+  "error": "Task not found with id: 999"
+}
+```
+
+---
+
+## Database
 
 This project uses **H2 in-memory database**.
 
 H2 Console:
-http://localhost:8080/h2-console
+`http://localhost:8080/h2-console`
 
 Connection settings:
 
-* JDBC URL: jdbc:h2:mem:testdb
-* Username: sa
-* Password: (leave empty)
+* JDBC URL: `jdbc:h2:mem:testdb`
+* Username: `sa`
+* Password: leave empty
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Clone the repository:
 
-```
-git clone https://github.com/your-username/task-manager-api.git
+```bash
+git clone https://github.com/ozlem-tng/task-manager-api.git
 ```
 
 2. Open the project in IntelliJ IDEA
 
 3. Run:
 
-```
+```bash
 TaskmanagerApplication.java
 ```
 
-4. API runs on:
+4. The API runs on:
 
-```
+```bash
 http://localhost:8080
 ```
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
-* Task filtering by status
-* Due date and priority support
-* Custom exception for task not found
+* Filter tasks by status
+* Add due date and priority support
 * DTO structure for request/response separation
 * MySQL integration
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 Özlem Tunğ
