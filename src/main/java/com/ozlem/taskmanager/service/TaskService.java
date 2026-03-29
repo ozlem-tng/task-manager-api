@@ -4,6 +4,7 @@ import com.ozlem.taskmanager.model.Task;
 import com.ozlem.taskmanager.model.TaskStatus;
 import com.ozlem.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import com.ozlem.taskmanager.exception.TaskNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,35 +26,34 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepository.findById(id);
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task updateTask(Long id, Task updatedTask) {
-        return taskRepository.findById(id)
-                .map(task -> {
-                    task.setTitle(updatedTask.getTitle());
-                    task.setDescription(updatedTask.getDescription());
-                    task.setStatus(updatedTask.getStatus());
-                    return taskRepository.save(task);
-                })
-                .orElse(null);
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+
+        task.setTitle(updatedTask.getTitle());
+        task.setDescription(updatedTask.getDescription());
+        task.setStatus(updatedTask.getStatus());
+
+        return taskRepository.save(task);
     }
 
-    public boolean deleteTask(Long id) {
+    public void deleteTask(Long id) {
         if (!taskRepository.existsById(id)) {
-            return false;
+            throw new TaskNotFoundException(id);
         }
         taskRepository.deleteById(id);
-        return true;
     }
 
     public Task updateTaskStatus(Long id, TaskStatus status) {
-        return taskRepository.findById(id)
-                .map(task -> {
-                    task.setStatus(status);
-                    return taskRepository.save(task);
-                })
-                .orElse(null);
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+
+        task.setStatus(status);
+        return taskRepository.save(task);
     }
 }
